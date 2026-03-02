@@ -7,7 +7,7 @@ namespace lab12
     {
         static void Main(string[] args)
         {
-            
+
             Console.WriteLine("введите количество учеников");
             int n = int.Parse(Console.ReadLine());
 
@@ -17,27 +17,46 @@ namespace lab12
                 n = int.Parse(Console.ReadLine());
             }
 
-            int count2 = 0, count3 = 0, count4 = 0, count5 = 0;
+            int[] grades= new int[n];
 
             for (int i = 0; i < n; i++)
             {
                 Console.WriteLine("введите оценку ученика " + (i + 1) + ": ");
-               int grades = int.Parse(Console.ReadLine());
-               switch (grades)
+                int grade = int.Parse(Console.ReadLine());
+                while (grade < 2 || grade > 5)
                 {
-                    case 5: count5++; break;
-                    case 4: count4++; break;
-                    case 3: count3++; break;
-                    case 2: count2++; break;
-                    default: Console.WriteLine("Оценка должна быть от 2 до 5"); i--; break;
+                    Console.WriteLine("Оценка должна быть от 2 до 5");
+                    grade = int.Parse(Console.ReadLine());
                 }
-
+                grades[i] = grade;
             }
 
-            Console.WriteLine("Пятерок: "+count5);
-            Console.WriteLine("Четверок: " + count4);
-            Console.WriteLine("Троек: " + count3);
-            Console.WriteLine("Двоек: "+ count2);
+            var result = Logic.Grade(grades);
+
+            Console.WriteLine("Пятерок: "+result[3]);
+            Console.WriteLine("Четверок: " + result[2]);
+            Console.WriteLine("Троек: " + result[1]);
+            Console.WriteLine("Двоек: "+ result[0]);
         }
+    }
+}
+
+public class Logic
+{
+    public static int[] Grade(int[] grades)
+    {
+        int count2 = 0, count3 = 0, count4 = 0, count5 = 0;
+
+        for (int i = 0; i < grades.Length; i++)
+        {
+            switch (grades[i])
+            {
+                case 5: count5++; break;
+                case 4: count4++; break;
+                case 3: count3++; break;
+                case 2: count2++; break;
+            }
+        }
+        return new int[] { count2, count3, count4, count5 };
     }
 }
